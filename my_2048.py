@@ -4,6 +4,14 @@ import random
 This file include functions for game 2048
 """
 
+def start_game():
+    """generate list 4*4 and adds 3 deuces randomly to the list[3]"""
+    field = [[0] * 4 for i in range(4)]
+    for i in range(3):
+        field[3][i] = 2
+    random.shuffle(field[3])
+    return field
+
 
 def print_field(field):
     """Print list like a string"""
@@ -15,15 +23,6 @@ def print_field(field):
             print(ch, '  ',   end='')
         print()
     print('-'*20)
-
-
-def start_game():
-    """generate list 4*4 and adds 3 deuces randomly to the list[3]"""
-    field = [[0] * 4 for i in range(4)]
-    for i in range(3):
-        field[3][i] = 2
-    random.shuffle(field[3])
-    return field
 
 
 def rotate(field):
