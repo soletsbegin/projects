@@ -3,6 +3,8 @@ import random
 
 def print_field(field):
     print('\n'*40)
+    print ('Use:     |5|     \n'
+           '      |1||2||3|  \n')
     for line in field:
         for ch in line:
             print(ch, '  ',   end='')
