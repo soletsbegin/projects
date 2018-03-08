@@ -35,7 +35,13 @@ def rotate(field):
 
 def left_move(field: list):
     """Main def for move,
-    we will use this def for move in all directions"""
+    we will use this def for move in all directions
+
+    >>> f = [[0,0,16,0],[4,4,0,0],[0,0,2,2],[2,4,4,0]]
+    >>> left_move(f)
+    [[16,0,0,0],[8,0,0,0],[4,0,0,0],[2,8,0,0]]
+
+    """
     empty_cell = 0
     for line in field:
         for i in range(3):
@@ -80,19 +86,19 @@ def up_move(field):
     return field
 
 
-main_field = start_game()
-print_field(main_field)
-while True:
-    key = input('Move')
-    if key == '1':
-        left_move(main_field)
-        print_field(main_field)
-    elif key == '3':
-        right_move(main_field)
-        print_field(main_field)
-    elif key == '5':
-        up_move(main_field)
-        print_field(main_field)
-    elif key == '2':
-        down_move(main_field)
-        print_field(main_field)
+# main_field = start_game()
+# print_field(main_field)
+# while True:
+#     key = input('Move')
+#     if key == '1':
+#         left_move(main_field)
+#         print_field(main_field)
+#     elif key == '3':
+#         right_move(main_field)
+#         print_field(main_field)
+#     elif key == '5':
+#         up_move(main_field)
+#         print_field(main_field)
+#     elif key == '2':
+#         down_move(main_field)
+#         print_field(main_field)
