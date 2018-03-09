@@ -31,18 +31,30 @@ def rotate(field):
     field.clear()
     for i in new_l:
         field.append(list(i))
+        
+def add_2(field):
+    """Add 2 in right side of list
 
+    >>> f = [[2,2,16,0],[4,4,2,0],[2,2,2,2],[2,4,4,0]]
+    >>> add_2(f)
+    [0, 1, 3]
+    """
+    empty_list = []
+    for i in range(4):
+        if 0 in field[i]:
+            empty_list.append(i)
+        else: continue
+    return empty_list
 
 def left_move(field: list):
     """Main def for move,
     we will use this def for move in all directions
 
-    >>> f = [[0,0,16,0],[4,4,0,0],[0,0,2,2],[2,4,4,0]]
+    >>> f = [[0, 0, 16, 0],[4, 4, 0, 0],[0, 0, 2, 2],[2, 4, 4, 0]]
     >>> left_move(f)
-    [[16,0,0,0],[8,0,0,0],[4,0,0,0],[2,8,0,0]]
+    [[16, 0, 0, 0], [8, 0, 0, 0], [4, 0, 0, 0], [2, 8, 0, 0]]
 
     """
-    empty_cell = 0
     for line in field:
         for i in range(3):
             if line[i] == line[i+1] and line[i] > 0:
@@ -52,11 +64,6 @@ def left_move(field: list):
             for j in range(3):
                 if line[j] == 0:
                     line.append(line.pop(j))
-        empty_cell += line.count(0)
-    if empty_cell > 0:
-        random.choice(field)[3] = 2
-    else:
-        print('GAME OVER!')
     return field
 
 
@@ -85,20 +92,20 @@ def up_move(field):
     rotate(field)
     return field
 
-
-# main_field = start_game()
-# print_field(main_field)
-# while True:
-#     key = input('Move')
-#     if key == '1':
-#         left_move(main_field)
-#         print_field(main_field)
-#     elif key == '3':
-#         right_move(main_field)
-#         print_field(main_field)
-#     elif key == '5':
-#         up_move(main_field)
-#         print_field(main_field)
-#     elif key == '2':
-#         down_move(main_field)
-#         print_field(main_field)
+if __name__ == '__main__':
+    main_field = start_game()
+    print_field(main_field)
+    while True:
+        key = input('Move')
+        if key == '1':
+            left_move(main_field)
+            print_field(main_field)
+        elif key == '3':
+            right_move(main_field)
+            print_field(main_field)
+        elif key == '5':
+            up_move(main_field)
+            print_field(main_field)
+        elif key == '2':
+            down_move(main_field)
+            print_field(main_field)
