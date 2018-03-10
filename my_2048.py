@@ -51,7 +51,9 @@ def add_2(field):
         if 0 in field[i]:
             empty_list.append(i)
         else: continue
-    field[random.choice(empty_list)][3] = 2
+    if empty_list:
+        field[random.choice(empty_list)][3] = 2
+    else: print('GAME OVER!!!')
     return field
 
 def left_move(field: list):
