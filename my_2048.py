@@ -52,7 +52,7 @@ def add_2(field):
         if 0 in field[i]:
             empty_list.append(i)
         else: continue
-    if empty_list:
+    if len(empty_list) > 0:
         field[random.choice(empty_list)][3] = 2
     else: print('GAME OVER!!!')
     return field
@@ -80,6 +80,7 @@ def left_move(field: list):
             for j in range(3):
                 if line[j] == 0:
                     line.append(line.pop(j))
+    add_2(main_field)
     return field
 
 
@@ -88,6 +89,7 @@ def right_move(field: list):
     for line in field:
         line.reverse()
     left_move(field)
+    add_2(main_field)
     for line in field:
         line.reverse()
     return field
@@ -97,6 +99,7 @@ def down_move(field):
     """rotate, use left_move and rotate to the starting position"""
     rotate(field)
     left_move(field)
+    add_2(main_field)
     for _ in '270': rotate(field)
     return field
 
@@ -105,6 +108,7 @@ def up_move(field):
     """rotate, use left_move and rotate to the starting position"""
     for _ in '270': rotate(field)
     left_move(field)
+    add_2(main_field)
     rotate(field)
     return field
 
@@ -127,17 +131,13 @@ if __name__ == '__main__':
         key = input('Move')
         if key == '1':
             left_move(main_field)
-            add_2(main_field)
             draw_field(main_field)
         elif key == '3':
             right_move(main_field)
-            add_2(main_field)
             draw_field(main_field)
         elif key == '5':
             up_move(main_field)
-            add_2(main_field)
             draw_field(main_field)
         elif key == '2':
             down_move(main_field)
-            add_2(main_field)
             draw_field(main_field)
