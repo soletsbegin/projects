@@ -1,4 +1,5 @@
 import random
+import numbers
 
 """
 This file include functions for game 2048
@@ -107,20 +108,36 @@ def up_move(field):
     rotate(field)
     return field
 
+def draw_field(field):
+    """This function draws a colored field with a module - numbers.py"""
+    print('\n' * 40)
+    print('Use:     |5|     \n'
+          '      |1||2||3|  \n')
+    for j in [0, 1, 2, 3]:
+        for i in [0, 1, 2]:
+            for n in [0, 1, 2, 3]:
+                print(numbers.numbers[field[j][n]][i], end='  ')
+            print()
+        print()
+
 if __name__ == '__main__':
     main_field = start_game()
-    print_field(main_field)
+    draw_field(main_field)
     while True:
         key = input('Move')
         if key == '1':
             left_move(main_field)
-            print_field(main_field)
+            add_2(main_field)
+            draw_field(main_field)
         elif key == '3':
             right_move(main_field)
-            print_field(main_field)
+            add_2(main_field)
+            draw_field(main_field)
         elif key == '5':
             up_move(main_field)
-            print_field(main_field)
+            add_2(main_field)
+            draw_field(main_field)
         elif key == '2':
             down_move(main_field)
-            print_field(main_field)
+            add_2(main_field)
+            draw_field(main_field)
