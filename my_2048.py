@@ -26,11 +26,18 @@ def print_field(field):
 
 
 def rotate(field):
-    """Rotates list 90 degrees to the right"""
+    """Rotates list 90 degrees to the right
+
+     >>> f = [[0, 0, 16, 0], [4, 4, 0,  0], [0, 0, 2,  2], [2, 4, 4,  0]]
+     >>> rotate(f)
+     [[2, 0, 4, 0], [4, 0, 4, 0], [4, 2, 0, 16], [0, 2, 0, 0]]
+
+    """
     new_l = zip(*field[::-1])
     field.clear()
     for i in new_l:
         field.append(list(i))
+    return field
         
 def add_2(field):
     """Add 2 in right side of list
@@ -44,7 +51,8 @@ def add_2(field):
         if 0 in field[i]:
             empty_list.append(i)
         else: continue
-    return empty_list
+    field[random.choice(empty_list)][3] = 2
+    return field
 
 def left_move(field: list):
     """Main def for move,
@@ -55,7 +63,12 @@ def left_move(field: list):
     [[16, 0, 0, 0], [8, 0, 0, 0], [4, 0, 0, 0], [2, 8, 0, 0]]
 
     """
+
     for line in field:
+        for _ in range(4):
+            for j in range(3):
+                if line[j] == 0:
+                    line.append(line.pop(j))
         for i in range(3):
             if line[i] == line[i+1] and line[i] > 0:
                 line[i] = line[i]*2
