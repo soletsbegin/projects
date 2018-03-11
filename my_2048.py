@@ -5,6 +5,7 @@ import numbers
 This file include functions for game 2048
 """
 
+
 def start_game():
     """generate list 4*4 and adds 3 deuces randomly to the list[3]"""
     field = [[0] * 4 for i in range(4)]
@@ -21,32 +22,22 @@ def print_field(field):
            '      |1||2||3|  \n')
     for line in field:
         for ch in line:
-            print(ch, '  ',   end='')
+            print(ch, '  ', end='')
         print()
     print('-'*20)
 
 
 def rotate(field):
-    """Rotates list 90 degrees to the right
-
-     >>> f = [[0, 0, 16, 0], [4, 4, 0,  0], [0, 0, 2,  2], [2, 4, 4,  0]]
-     >>> rotate(f)
-     [[2, 0, 4, 0], [4, 0, 4, 0], [4, 2, 0, 16], [0, 2, 0, 0]]
-
-    """
+    """Rotates list 90 degrees to the right"""
     new_l = zip(*field[::-1])
     field.clear()
     for i in new_l:
         field.append(list(i))
     return field
-        
-def add_2(field):
-    """Add 2 in right side of list
 
-    >>> f = [[2,2,16,0],[4,4,2,0],[2,2,2,2],[2,4,4,0]]
-    >>> add_2(f)
-    [0, 1, 3]
-    """
+
+def add_2(field):
+    """Add 2 in right side of list"""
     empty_list = []
     for i in range(4):
         if 0 in field[i]:
@@ -57,15 +48,9 @@ def add_2(field):
     else: print('GAME OVER!!!')
     return field
 
+
 def left_move(field: list):
-    """Main def for move,
-    we will use this def for move in all directions
-
-    >>> f = [[0, 0, 16, 0],[4, 4, 0, 0],[0, 0, 2, 2],[2, 4, 4, 0]]
-    >>> left_move(f)
-    [[16, 0, 0, 0], [8, 0, 0, 0], [4, 0, 0, 0], [2, 8, 0, 0]]
-
-    """
+    """Main def for move, we will use this def for move in all directions    """
 
     for line in field:
         for _ in range(4):
@@ -112,6 +97,7 @@ def up_move(field):
     rotate(field)
     return field
 
+
 def draw_field(field):
     """This function draws a colored field with a module - numbers.py"""
     print('\n' * 40)
@@ -123,6 +109,7 @@ def draw_field(field):
                 print(numbers.numbers[field[j][n]][i], end='  ')
             print()
         print()
+
 
 if __name__ == '__main__':
     main_field = start_game()
