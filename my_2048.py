@@ -7,12 +7,30 @@ This file include functions for game 2048
 
 
 def start_game():
-    """generate list 4*4 and adds 3 deuces randomly to the list[3]"""
+    """generate list 4*4 and adds 3 deuces randomly to the list[3]
+
+    >>> start_game()
+    [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+    """
     field = [[0] * 4 for i in range(4)]
-    for i in range(3):
-        field[3][i] = 2
-    random.shuffle(field[3])
     return field
+
+
+def chance():
+    """ gives 2 - 91% and 4 9%"""
+    if random.random() <= 0.91: return 2
+    else: return 4
+
+
+def empty_cells(field):
+    """create list with coordinates of empty cells
+
+    >>> empty_cells([[2, 0], [2, 0]])
+    [(0, 1), (1, 1)]
+    >>> empty_cells([[2, 2], [2, 2]])
+    []
+    """
+    return [(x, y) for x in range(len(field)) for y in range(len(field[x])) if field[x][y] == 0]
 
 
 def print_field(field):
@@ -59,22 +77,21 @@ def left_move(field: list):
                     line.append(line.pop(j))
         for i in range(3):
             if line[i] == line[i+1] and line[i] > 0:
-                line[i] = line[i]*2
+                line[i] *= 2
                 line[i+1] = 0
         for _ in range(4):
             for j in range(3):
                 if line[j] == 0:
                     line.append(line.pop(j))
-    add_2(main_field)
     return field
 
 
 def right_move(field: list):
-    """reverse, use left_move and reverse again"""
+    """reverse, use left_move and reverse again
+    """
     for line in field:
         line.reverse()
     left_move(field)
-    add_2(main_field)
     for line in field:
         line.reverse()
     return field
@@ -84,7 +101,6 @@ def down_move(field):
     """rotate, use left_move and rotate to the starting position"""
     rotate(field)
     left_move(field)
-    add_2(main_field)
     for _ in '270': rotate(field)
     return field
 
@@ -93,7 +109,6 @@ def up_move(field):
     """rotate, use left_move and rotate to the starting position"""
     for _ in '270': rotate(field)
     left_move(field)
-    add_2(main_field)
     rotate(field)
     return field
 
@@ -112,19 +127,22 @@ def draw_field(field):
 
 
 if __name__ == '__main__':
-    main_field = start_game()
-    draw_field(main_field)
-    while True:
-        key = input('Move')
-        if key == '1':
-            left_move(main_field)
-            draw_field(main_field)
-        elif key == '3':
-            right_move(main_field)
-            draw_field(main_field)
-        elif key == '5':
-            up_move(main_field)
-            draw_field(main_field)
-        elif key == '2':
-            down_move(main_field)
-            draw_field(main_field)
+    import doctest
+    doctest.testmod()
+
+#     main_field = start_game()
+#     draw_field(main_field)
+#     while True:
+#         key = input('Move')
+#         if key == '1':
+#             left_move(main_field)
+#             draw_field(main_field)
+#         elif key == '3':
+#             right_move(main_field)
+#             draw_field(main_field)
+#         elif key == '5':
+#             up_move(main_field)
+#             draw_field(main_field)
+#         elif key == '2':
+#             down_move(main_field)
+#             draw_field(main_field)
