@@ -33,6 +33,19 @@ def empty_cells(field):
     return [(x, y) for x in range(len(field)) for y in range(len(field[x])) if field[x][y] == 0]
 
 
+def add_2(field):
+    """Add 2 in empty cell
+    >>> add_2([[2, 0], [2, 2]])
+    [[2, 2], [2, 2]]
+    >>> add_2([[2, 2], [2, 2]])
+    [[2, 2], [2, 2]]
+    """
+    if len(empty_cells(field)) > 0:
+        x, y = random.choice(empty_cells(field))
+        field[x][y] = chance()
+    return field
+
+
 def print_field(field):
     """Print list like a string"""
     print('\n'*40)
@@ -51,19 +64,6 @@ def rotate(field):
     field.clear()
     for i in new_l:
         field.append(list(i))
-    return field
-
-
-def add_2(field):
-    """Add 2 in right side of list"""
-    empty_list = []
-    for i in range(4):
-        if 0 in field[i]:
-            empty_list.append(i)
-        else: continue
-    if len(empty_list) > 0:
-        field[random.choice(empty_list)][3] = 2
-    else: print('GAME OVER!!!')
     return field
 
 
@@ -129,20 +129,3 @@ def draw_field(field):
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
-
-#     main_field = start_game()
-#     draw_field(main_field)
-#     while True:
-#         key = input('Move')
-#         if key == '1':
-#             left_move(main_field)
-#             draw_field(main_field)
-#         elif key == '3':
-#             right_move(main_field)
-#             draw_field(main_field)
-#         elif key == '5':
-#             up_move(main_field)
-#             draw_field(main_field)
-#         elif key == '2':
-#             down_move(main_field)
-#             draw_field(main_field)
