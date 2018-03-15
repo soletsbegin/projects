@@ -7,7 +7,7 @@ This file include functions for game 2048
 
 
 def start_game():
-    """generate list 4*4 and adds 3 deuces randomly to the list[3]
+    """Generate list 4*4 and adds 3 deuces randomly to the list[3].
 
     >>> start_game()
     [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
@@ -17,13 +17,13 @@ def start_game():
 
 
 def chance():
-    """ gives 2 - 91% and 4 9%"""
+    """Gives 2 - 91% and 4 9%."""
     if random.random() <= 0.91: return 2
     else: return 4
 
 
 def empty_cells(field):
-    """create list with coordinates of empty cells
+    """Create list with coordinates of empty cells.
 
     >>> empty_cells([[2, 0], [2, 0]])
     [(0, 1), (1, 1)]
@@ -35,6 +35,7 @@ def empty_cells(field):
 
 def add_2(field):
     """Add 2 in empty cell
+
     >>> add_2([[2, 0], [2, 2]])
     [[2, 2], [2, 2]]
     >>> add_2([[2, 2], [2, 2]])
@@ -47,7 +48,7 @@ def add_2(field):
 
 
 def print_field(field):
-    """Print list like a string"""
+    """Print list like a string."""
     print('\n'*40)
     print ('Use:     |5|     \n'
            '      |1||2||3|  \n')
@@ -59,7 +60,11 @@ def print_field(field):
 
 
 def rotate(field):
-    """Rotates list 90 degrees to the right"""
+    """Rotates list 90 degrees to the right.
+
+    >>> rotate([[0, 1, 2], [3, 4, 5], [6, 7, 8]])
+    [[6, 3, 0], [7, 4, 1], [8, 5, 2]]
+    """
     new_l = zip(*field[::-1])
     field.clear()
     for i in new_l:
@@ -68,8 +73,7 @@ def rotate(field):
 
 
 def left_move(field: list):
-    """Main def for move, we will use this def for move in all directions    """
-
+    """Main def for move, we will use this def for move in all directions."""
     for line in field:
         for _ in range(4):
             for j in range(3):
@@ -87,8 +91,7 @@ def left_move(field: list):
 
 
 def right_move(field: list):
-    """reverse, use left_move and reverse again
-    """
+    """Reverse, use left_move and reverse again."""
     for line in field:
         line.reverse()
     left_move(field)
@@ -98,7 +101,7 @@ def right_move(field: list):
 
 
 def down_move(field):
-    """rotate, use left_move and rotate to the starting position"""
+    """Rotate, use left_move and rotate to the starting position."""
     rotate(field)
     left_move(field)
     for _ in '270': rotate(field)
@@ -106,7 +109,7 @@ def down_move(field):
 
 
 def up_move(field):
-    """rotate, use left_move and rotate to the starting position"""
+    """Rotate, use left_move and rotate to the starting position."""
     for _ in '270': rotate(field)
     left_move(field)
     rotate(field)
@@ -114,7 +117,7 @@ def up_move(field):
 
 
 def draw_field(field):
-    """This function draws a colored field with a module - numbers.py"""
+    """This function draws a colored field with a module - numbers.py."""
     print('\n' * 40)
     print('Use:     |5|     \n'
           '      |1||2||3|  \n')
