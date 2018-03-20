@@ -1,5 +1,6 @@
 import random
 import numbers
+from termcolor import colored
 
 """
 This file include functions for game 2048
@@ -128,6 +129,19 @@ def draw_field(field):
             print()
         print()
 
+
+def draw_field_with_termcolor(field):
+    """This function will print field with def colored from termcolor."""
+    print('\n' * 40)
+    print('Use:     |5|     \n'
+          '      |1||2||3|  \n')
+    for j in [0, 1, 2, 3]:
+        for i in [0, 1, 2]:
+            for n in [0, 1, 2, 3]:
+                print(numbers.colored_numbers[field[j][n]][i], end='  ')
+            print()
+        print()
+    pass
 
 if __name__ == '__main__':
     import doctest
