@@ -90,27 +90,39 @@ class Wallet:
     def __init__(self, name):
         self._name = name
         Wallet.wallets.append(self)
-        self.transactions = []
-        self.ballance = self.calc_ballance()        #переменная не работает не знаю почему, пока не использую
+        self._transactions = []
+        self._ballance = 0
 
     def __str__(self):
-        return '{} - {}'.format(self._name, self.calc_ballance())
+        return '{} - {}'.format(self._name, self._ballance)
 
     def calc_ballance(self):
+        """
+        Take info from _transactions add calculate ballance from element[0] of tuples.
+        """
         res = 0
-        for i in self.transactions:
+        for i in self._transactions:
             res += i[0]
         return res
 
     def add_transaction(self, value):
-        self.transactions = list(self.transactions)
-        self.transactions.append([int(value), ctime()])
+        """
+        Add transactions to list.
+        """
+        self._transactions = list(self._transactions)
+        if type(value) == list:
+            self._transactions.extend(value)
+        else:
+            self._transactions.append([int(value), ctime()])
+        self._ballance = self.calc_ballance()
+
+    @property
+    def transactions(self):
+        return self._transactions
 
     def print_transactions(self):
-        for t, count in zip(reversed(self.transactions), range(10)):
+        for t, count in zip(reversed(self._transactions), range(10)):
             print('{} - {}'.format(t[1], t[0]))
-
-
 
 
 def whelp():
@@ -148,8 +160,10 @@ def main():
             except IndexError: print("Enter name!!!")
         elif users_input[0] == 'lp':
             Person.print_users()
+            continue
         elif users_input[0] == 'lpa':
             print('Current user: {}'.format(str(Person.current_user)))
+            continue
         elif users_input[0] == '-p':
             try:
                 Person.delete_user(users_input[1])
@@ -217,7 +231,7 @@ def load_data():
             for w, t in v['wallets'].items():
                 try:
                     w = Wallet(w)
-                    w.transactions = t
+                    w.add_transaction(t)
                     p.wallets.append(w)
                 except IndexError: p.add_wallet(w)
     except FileNotFoundError: print('New file created')
