@@ -9,6 +9,12 @@ import io
 не исключено что где то вылетит ошибка.
 """
 
+
+def current_time(date: str):
+    date = date.split()
+    return "{}-{}-{}  {}".format(date[2], date[1], date[4], date[3])
+
+
 class Person:
 
     users = dict()
@@ -74,7 +80,7 @@ class Person:
     def save_data():
         """Convert {users} to format which supported"""
         for pers in Person.users:
-            Person.data['{}:{}'.format(pers._id, pers._name)] = {'obj': tuple((pers._name, pers._id)),
+            Person.data['{}:{}'.format(pers._id, pers._name)] = {'obj': (pers._name, pers._id),
                                                                  'wallets': dict()}
             for w in pers.wallets:
                 Person.data['{}:{}'.format(pers._id, pers._name)]['wallets'][w._name] = w.transactions
@@ -90,27 +96,43 @@ class Wallet:
     def __init__(self, name):
         self._name = name
         Wallet.wallets.append(self)
-        self.transactions = []
-        self.ballance = self.calc_ballance()        #переменная не работает не знаю почему, пока не использую
+        self._transactions = []
+        self._ballance = 0
 
     def __str__(self):
-        return '{} - {}'.format(self._name, self.calc_ballance())
+        return '{} - {}'.format(self._name, self._ballance)
 
     def calc_ballance(self):
+        """
+        Take info from _transactions add calculate ballance from element[0] of tuples.
+        """
         res = 0
-        for i in self.transactions:
+        for i in self._transactions:
             res += i[0]
         return res
 
     def add_transaction(self, value):
-        self.transactions = list(self.transactions)
-        self.transactions.append([int(value), ctime()])
+        """
+        Add transactions to list.
+        """
+        self._transactions = list(self._transactions)
+        if type(value) == list:
+            self._transactions.extend(value)
+        else:
+            self._transactions.append([int(value), current_time(ctime())])
+        self._ballance = self.calc_ballance()
+
+    @property
+    def name(self):
+        return self._name
+
+    @property
+    def transactions(self):
+        return self._transactions
 
     def print_transactions(self):
-        for t, count in zip(reversed(self.transactions), range(10)):
-            print('{} - {}'.format(t[1], t[0]))
-
-
+        for t, count in zip(reversed(self._transactions), range(10)):
+            print('\t{} \t {} '.format(t[1], t[0]))
 
 
 def whelp():
@@ -148,8 +170,10 @@ def main():
             except IndexError: print("Enter name!!!")
         elif users_input[0] == 'lp':
             Person.print_users()
+            continue
         elif users_input[0] == 'lpa':
             print('Current user: {}'.format(str(Person.current_user)))
+            continue
         elif users_input[0] == '-p':
             try:
                 Person.delete_user(users_input[1])
@@ -158,19 +182,21 @@ def main():
         elif users_input[0] == 'sp':
             try:
                 Person.choose_user(users_input[1])
-                print('You choosed - {}'.format(str(Person.current_user)))
             except IndexError: print("Enter ID or Name!!!")
             continue
         elif users_input[0] == '+w':
             if Person.current_user == 0:
                 print('Please, choose an user!!!')
-            else: Person.current_user.add_wallet(users_input[1])
+            else:
+                Person.current_user.add_wallet(users_input[1])
+                print('New wallet: {}({})'.format(users_input[1], Person.current_user))
         elif users_input[0] == 'lw':
             if Person.current_user == 0:
                 print('Please, choose an user!!!')
             else:
                 for w in Person.current_user.wallets:
                     print(str(w))
+            continue
         elif users_input[0] == 't':
             for w in Wallet.wallets:
                 if users_input[1] == w._name:
@@ -183,13 +209,14 @@ def main():
         elif users_input[0] == 'last':
             if len(users_input) == 1:
                 for w in Wallet.wallets:
-                    print(w._name.center(50, ' '))
+                    print(w.name.center(50, ' '))
                     w.print_transactions()
                     print('='*50)
                     print()
+                continue
             else:
                 for w in Wallet.wallets:
-                    if w._name == users_input[1]:
+                    if w.name == users_input[1]:
                         w.print_transactions()
                         break
                 else: print("There is not a wallet with id: {}".format(users_input[1]))
@@ -199,8 +226,9 @@ def main():
                 print('Please, choose an user!!!')
             else:
                 for w in Person.current_user.wallets:
-                    if w._name == users_input[1]:
+                    if w.name == users_input[1]:
                         Person.current_user.wallets.remove(w)
+                        Wallet.wallets.remove(w)
                         break
                 else:
                     print("There is not a wallet with id: {}".format(users_input[1]))
@@ -217,7 +245,7 @@ def load_data():
             for w, t in v['wallets'].items():
                 try:
                     w = Wallet(w)
-                    w.transactions = t
+                    w.add_transaction(t)
                     p.wallets.append(w)
                 except IndexError: p.add_wallet(w)
     except FileNotFoundError: print('New file created')
