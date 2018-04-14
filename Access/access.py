@@ -3,6 +3,8 @@ import getpass
 import hashlib
 import sys
 
+parser = ConfigParser()
+parser.read('configs.ini')
 
 def choice():
     action = input('1: Login\n'
@@ -50,8 +52,6 @@ def check_pass(password: str, hashcode: str):
 
 
 def main():
-    parser = ConfigParser()
-    parser.read('configs.ini')
     pars_list = [i for i in parser]
     if len(pars_list) == 1:
         print('Create a new user')
